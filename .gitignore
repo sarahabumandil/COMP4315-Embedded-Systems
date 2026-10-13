@@ -1,0 +1,99 @@
+# ============================================
+# .gitignore for UCAS COMP 4315 – Embedded Systems
+# ============================================
+
+# ---------- MPLAB / MPLAB X (Microchip) ----------
+*.hex
+*.map
+*.lst
+*.o
+*.cod
+*.mcs
+*.elf
+*.d
+*.i
+*.sdb
+*.sym
+*.p1
+*.pre
+*.obj
+*.abs
+*.dis
+*.hxl
+
+# MPLAB X project files
+build/
+dist/
+debug/
+nbproject/private/
+nbproject/Makefile-*
+nbproject/Package-*
+*.mcp.bak
+*.mcp~
+*.xpp.bak
+*.xpp~
+
+# ---------- Proteus (circuit simulation) ----------
+*.pdsbak
+*.dbk
+*.Workspace
+*.workspace
+backup/
+Last Loaded *
+
+# ---------- KiCad / Eagle (if you use them) ----------
+*.bak
+*.bck
+*-backups/
+*.kicad_pcb-bak
+*.sch-bak
+gerber/
+*.gbr
+
+# ---------- Compiled / binary files ----------
+*.exe
+*.dll
+*.so
+*.out
+*.bin
+*.pyc
+__pycache__/
+
+# ---------- Logs & temp ----------
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ---------- OS files ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---------- Editors / IDEs ----------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.vs/
+
+# ---------- Office temp files ----------
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# ---------- PDFs (optional – uncomment if you don't want to track) ----------
+# *.pdf
+
+# ---------- Keep these (force-track) ----------
+!.gitkeep
+!README.md
+!LICENSE

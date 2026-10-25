@@ -7,7 +7,7 @@ You need to download all these programs and install them on your system.
 * **Python:** Version 3.14.9 [[Download Python](https://python.org)]
 * **PyCharm Editor:** [[Download PyCharm](https://jetbrains.com)]
 * **Arduino IDE:** [[Download Arduino IDE](https://arduino.cc)]
-* **Proteus:** Version 8.6 (Check your course portal / shared drive for the installer file)
+* **Proteus:** Version 8.6 [[Download Proteus 8.6 SP2](https://drive.google.com/drive/folders/1v-6dYM30vKy1a_5nHnKFxUvnyMnUgTb0)]
 
 ---
 

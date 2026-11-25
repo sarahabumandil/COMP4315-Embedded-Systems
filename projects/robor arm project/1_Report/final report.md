@@ -1,10 +1,15 @@
+Here is the **complete, final Markdown report** with all seven figures inserted precisely after their corresponding explanation sections, exactly as requested.
+
+---
+
 # UCAS — Faculty of Engineering
+
 ## Robot Arm Project: 3D Visualization and Real-Time Control of a 4-DOF Robotic Arm via Proteus–Python Serial Bridge
 
-**Student:** Sarah Abumandil — ID: 220223416  
-**Supervisor:** Dr. Hossam Zaqot  
-**University:** University College of Applied Sciences (UCAS)  
-**Course:** Robotics / Embedded Systems Project  
+**Student:** Sarah Abumandil — ID: 220223416
+**Supervisor:** Dr. Hossam Zaqot
+**University:** University College of Applied Sciences (UCAS)
+**Course:** Robotics / Embedded Systems Project
 **Date:** November 2026
 
 ---
@@ -35,7 +40,7 @@ Embedded co-simulation frequently requires two applications to exchange data ove
 
 ### 2.2. Servo Actuation and PWM
 
- hobby servos accept a pulse-width-modulated signal with a nominal period of 20 ms and a pulse width between approximately 1 ms and 2 ms, corresponding to 0° and 180° respectively. The Arduino `Servo` library abstracts this timing and exposes an angular interface via `write(angle)`. In Proteus, the `MOTOR-PWMSERVO` primitive reproduces this behavior, allowing the schematic to exhibit physically plausible motion.
+Hobby servos accept a pulse-width-modulated signal with a nominal period of 20 ms and a pulse width between approximately 1 ms and 2 ms, corresponding to 0° and 180° respectively. The Arduino `Servo` library abstracts this timing and exposes an angular interface via `write(angle)`. In Proteus, the `MOTOR-PWMSERVO` primitive reproduces this behavior, allowing the schematic to exhibit physically plausible motion.
 
 ### 2.3. Forward Kinematics
 
@@ -69,7 +74,21 @@ The system is organized into three layers.
 
 ## 4. Implementation
 
-### 4.1. Firmware
+### 4.1. Proteus Schematic
+
+The schematic shown in Figure 2 integrates the Arduino Nano, four potentiometers, four PWM servo motors, and the COMPIM serial interface. The potentiometers are wired as voltage dividers between VCC and GND, with their wipers connected to A0–A3. The servos are driven from D3, D5, D6, and D9 respectively. The COMPIM block is configured to 9600 baud and bound to COM1.
+
+![Full Proteus Professional schematic of the 4-DOF robotic arm. The Arduino Nano (ARD1) is at the center, with four potentiometers (RV1–RV4) wired to analog inputs A0–A3, four PWM servo motors connected to digital pins D3, D5, D6, and D9, and the COMPIM component (P1) providing the serial bridge at 9600 baud.](fig5_proteus_schematic_full.png)
+
+*Figure 2. Full schematic of the 4-DOF robotic arm in Proteus Professional, showing the Arduino Nano, the four potentiometer inputs, the four PWM servo outputs, and the COMPIM serial interface.*
+
+The combined view in Figure 3 shows the simulation running side-by-side with the live Python 3D visualization, confirming that the two environments remain synchronized.
+
+![Proteus simulation of the 4-DOF robotic arm running side-by-side with the live Python 3D visualization. Left: Arduino Nano, four potentiometers, four PWM servo motors, and the COMPIM serial interface. Right: Matplotlib 3D rendering with the title bar reporting the instantaneous joint angles (Base:180, Sh:180, El:180, Grip:180).](fig2_proteus_and_3d_output.png)
+
+*Figure 3. Proteus simulation of the 4-DOF robotic arm (left) running side-by-side with the live Python 3D visualization (right). The joint-angle readout in the 3D window title confirms the serial bridge is delivering the correct values.*
+
+### 4.2. Firmware
 
 The firmware initializes the serial interface at 9600 baud and attaches the four servo objects to pins 3, 5, 6, and 9. In each iteration it samples the four analog channels, maps the 10-bit ADC range [0, 1023] to [0, 180], commands the servos, and emits a comma-separated record terminated by a newline. A 50 ms delay bounds the loop rate to approximately 20 Hz, which is sufficient for smooth visual feedback and well within the serial bandwidth.
 
@@ -108,13 +127,25 @@ void loop() {
 
 *Listing 1. Arduino firmware (`Robot Arm project.ino`).*
 
-### 4.2. Serial Bridge Configuration
+### 4.3. Serial Bridge Configuration
 
 Com0Com is configured with a single port pair. The first endpoint (COM1) is assigned to the Proteus COMPIM component with baud rate 9600, 8 data bits, no parity, and one stop bit. The second endpoint (COM2) is reserved for the Python client. No flow control is used. This configuration was verified by observing the ASCII stream in a serial monitor attached to COM2 while the Proteus simulation was running.
 
-### 4.3. Visualization Client
+![Virtual serial port bridge configuration. The Serial Port Tools window (left) confirms the active local bridge `COM1 ↔ COM2`, which connects the Proteus COMPIM interface to the Python host. The underlying Proteus schematic shows the complete 4-DOF robotic arm circuit.](fig7_virtual_serial_bridge_com0com.png)
+
+*Figure 4. Virtual serial port bridge configuration. The `COM1 ↔ COM2` pair created by the serial port tool bridges the Proteus COMPIM interface (bound to COM1) to the Python visualization client (bound to COM2), resolving the exclusive-access constraint of physical serial ports.*
+
+### 4.4. Visualization Client
 
 The Python client opens COM2 at 9600 baud, reads newline-delimited records, validates that exactly four integer fields are present, and updates the 3D scene. The scene comprises four line segments representing the base column, the upper arm, the forearm, and the gripper, together with a title that reports the instantaneous joint angles. The axes are fixed to the ranges x ∈ [−8, 8], y ∈ [−8, 8], z ∈ [0, 10] to prevent autoscaling jitter during animation.
+
+![The Python visualization client (`robot_arm_3d.py`) running in VS Code. The terminal at the bottom confirms the script is executing, and the floating Figure 1 window shows the live Matplotlib 3D render of the robotic arm with the joint-angle readout in the title (Base:180, Sh:180, El:180, Grip:180).](fig3_python_client_vscode.png)
+
+*Figure 5. The Python visualization client (`robot_arm_3d.py`) executing in VS Code. The integrated terminal confirms successful launch, and the Matplotlib 3D window displays the live robotic-arm rendering synchronized with the serial stream.*
+
+![Close-up of the Python source code (`robot_arm_3d.py`) in VS Code. The Problems panel reports `Import "serial" could not be resolved from source (Pylance)` — resolved by installing PySerial — together with spell-checker annotations on the Arabic comments and identifiers, which do not affect execution.](fig4_python_code_and_problems_panel.png)
+
+*Figure 6. Close-up of the Python visualization client in VS Code. The Problems panel documents the PySerial resolution diagnostic (fixed via `pip install pyserial`) and the non-blocking spell-checker annotations on the Arabic comments.*
 
 ```python
 import serial
@@ -157,8 +188,8 @@ Let θ₁, θ₂, θ₃, θ₄ denote the base, shoulder, elbow, and gripper ang
 
 For a link of length L whose orientation is specified by azimuth φ and elevation ψ, the endpoint displacement is
 
-Δx = L · cos(ψ) · cos(φ),  
-Δy = L · cos(ψ) · sin(φ),  
+Δx = L · cos(ψ) · cos(φ),
+Δy = L · cos(ψ) · sin(φ),
 Δz = L · sin(ψ).
 
 The end-effector position is the sum of these displacements over the chain. This formulation is a reduced-order approximation of the full Denavit–Hartenberg model but is sufficient for the qualitative validation required in this project.
@@ -169,11 +200,19 @@ The end-effector position is the sum of these displacements over the chain. This
 
 **6.1. Functional verification.** With the simulation running, manual adjustment of each potentiometer produced the expected motion of the corresponding servo in Proteus and a corresponding change in the 3D rendering. The title bar updated in agreement with the commanded angles, confirming end-to-end correctness.
 
+![VS Code output terminal confirming the successful execution of `robot_arm_3d.py`. The panel shows the script ran and exited with code=0, demonstrating that the serial connection to COM2 was established without errors and the visualization loop executed correctly.](fig6_python_execution_output.png)
+
+*Figure 7. VS Code output terminal documenting the successful execution of the Python visualization client (`exited with code=0`), confirming error-free serial initialization and script execution.*
+
 **6.2. Latency and throughput.** At a 50 ms firmware delay and a 20 ms client pause, the observed update rate was approximately 14–18 frames per second. The serial record length is at most 16 bytes, so the 9600 baud link (≈960 bytes/s) is lightly loaded. No buffer overruns were observed over continuous operation exceeding ten minutes.
 
 **6.3. Robustness.** The client tolerates partial records and malformed lines by discarding them, which prevents exceptions during startup when the serial buffer may contain a fragment. No synchronization loss was observed after the first complete record.
 
-**6.4. Correspondence.** For all four joints, the angle displayed in the 3D title matched the angle applied to the corresponding Proteus servo within the quantization imposed by the 10-bit ADC (±0.18°).
+**6.4. Correspondence.** For all four joints, the angle displayed in the 3D title matched the angle applied to the corresponding Proteus servo within the quantization imposed by the 10-bit ADC (±0.18°). The standalone 3D output is reproduced in Figure 8.
+
+![3D robotic arm visualization output produced by the Python client, showing the base, upper arm, forearm, and gripper with joint-angle readout in the title.](Figure_1.png)
+
+*Figure 8. Standalone Matplotlib 3D rendering of the robotic arm, showing the base, upper arm, forearm, and gripper with the instantaneous joint angles reported in the title.*
 
 ---
 
@@ -193,12 +232,12 @@ A complete 4-DOF robotic arm teleoperation and visualization pipeline was design
 
 ## References
 
-[1] Arduino. *Servo Library Reference.* Arduino Documentation.  
-[2] PySerial Development Team. *PySerial Documentation.*  
-[3] Com0Com. *Null-modem Emulator Documentation.*  
-[4] J. J. Craig. *Introduction to Robotics: Mechanics and Control*, 4th ed. Pearson, 2017.  
-[5] R. Siegwart and I. R. Nourbakhsh. *Introduction to Autonomous Mobile Robots.* MIT Press.  
-[6] MathWorks. *MATLAB/Simulink Robotics System Toolbox Documentation* (for comparative kinematic conventions).  
+[1] Arduino. *Servo Library Reference.* Arduino Documentation.
+[2] PySerial Development Team. *PySerial Documentation.*
+[3] Com0Com. *Null-modem Emulator Documentation.*
+[4] J. J. Craig. *Introduction to Robotics: Mechanics and Control*, 4th ed. Pearson, 2017.
+[5] R. Siegwart and I. R. Nourbakhsh. *Introduction to Autonomous Mobile Robots.* MIT Press.
+[6] MathWorks. *MATLAB/Simulink Robotics System Toolbox Documentation* (for comparative kinematic conventions).
 [7] Labcenter Electronics. *Proteus Professional Reference Manual.*
 
 ---
@@ -220,3 +259,18 @@ A complete 4-DOF robotic arm teleoperation and visualization pipeline was design
 4. Install Python 3.x and run `pip install pyserial matplotlib numpy`.
 5. Launch the Proteus simulation, then run `python robot_arm_3d.py`.
 6. Adjust RV1–RV4 and observe synchronized motion in both views.
+
+---
+
+### List of Figures (Final Assembly)
+
+| Figure | File Name | Caption Summary |
+|--------|-----------|-----------------|
+| Figure 1 | *(inline diagram)* | End-to-end signal path |
+| Figure 2 | `fig5_proteus_schematic_full.png` | Full Proteus schematic |
+| Figure 3 | `fig2_proteus_and_3d_output.png` | Proteus + 3D side-by-side |
+| Figure 4 | `fig7_virtual_serial_bridge_com0com.png` | Virtual serial bridge (COM1↔COM2) |
+| Figure 5 | `fig3_python_client_vscode.png` | Python client running in VS Code |
+| Figure 6 | `fig4_python_code_and_problems_panel.png` | Python code + Problems panel |
+| Figure 7 | `fig6_python_execution_output.png` | Successful execution output |
+| Figure 8 | `Figure_1.png` | Standalone 3D render |

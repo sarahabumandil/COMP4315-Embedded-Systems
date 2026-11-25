@@ -1,19 +1,19 @@
 
-# UCAS — Faculty of Engineering
+# UCAS : Faculty of Engineering : EMBEDED SYSTEM LAB 
 
-## Robot Arm Project: 3D Visualization and Real-Time Control of a 4-DOF Robotic Arm via Proteus–Python Serial Bridge
+## Robot Arm Project: 3D Visualization and RealTime Control of a 4 DOF Robotic Arm via Proteus–Python Serial Bridge
 
-**Student:** Sarah Abumandil — ID: 220223416
+**Student:** Sarah Abumandil ,  **ID:** 220223416
 **Supervisor:** Dr. Hossam Zaqot
 **University:** University College of Applied Sciences (UCAS)
-**Course:** Robotics / Embedded Systems Project
-**Date:** November 2026
+**Course:** Embedded Systems Lab Project
+**Date:** 23 November 2026
 
 ---
 
 ## Abstract
 
-This report presents the design, implementation, and validation of a real-time teleoperation and visualization system for a four-degree-of-freedom (4-DOF) robotic arm. The system couples an Arduino Nano–based embedded controller simulated in Proteus Professional with a Python-based 3D visualization environment. Four potentiometers provide analog reference inputs that are mapped to joint angles in the range [0°, 180°]. The Arduino firmware actuates four servo motors within the Proteus schematic and simultaneously streams the joint angles over a serial link at 9600 baud. A virtual serial port pair (Com0Com) bridges the Proteus COMPIM interface to the Python host, which parses the incoming angle stream and renders the manipulator kinematics in a live Matplotlib 3D scene. The architecture demonstrates a clean separation between the embedded control layer, the communication layer, and the visualization layer. Experimental results confirm stable end-to-end latency, correct kinematic correspondence between the simulated servos and the 3D model, and robust serial parsing under continuous operation. The project is intended as a pedagogical platform for teaching serial communication, embedded control, and forward kinematics, and is extensible to physical hardware with no modification to the host software.
+This report presents the design, implementation, and validation of a real time teleoperation and visualization system for a four degree of freedom (4 DOF) robotic arm. The system couples an Arduino Nano–based embedded controller simulated in Proteus Professional with a Python based 3D visualization environment. Four potentiometers provide analog reference inputs that are mapped to joint angles in the range [0°, 180°]. The Arduino firmware actuates four servo motors within the Proteus schematic and simultaneously streams the joint angles over a serial link at 9600 baud. A virtual serial port pair (Com0Com) bridges the Proteus COMPIM interface to the Python host, which parses the incoming angle stream and renders the manipulator kinematics in a live Matplotlib 3D scene. The architecture demonstrates a clean separation between the embedded control layer, the communication layer, and the visualization layer. Experimental results confirm stable end-to-end latency, correct kinematic correspondence between the simulated servos and the 3D model, and robust serial parsing under continuous operation. The project is intended as a pedagogical platform for teaching serial communication, embedded control, and forward kinematics, and is extensible to physical hardware with no modification to the host software.
 
 **Keywords:** 4-DOF robotic arm, Arduino Nano, Proteus, serial communication, Com0Com, forward kinematics, Matplotlib, real-time visualization, embedded systems.
 

@@ -1,6 +1,3 @@
-Here is the **complete, final Markdown report** with all seven figures inserted precisely after their corresponding explanation sections, exactly as requested.
-
----
 
 # UCAS — Faculty of Engineering
 
